@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          //change background to random color on click
+          //changing background to random color on click
           setState(
             () => backgroundColor = Color.fromRGBO(
               Random().nextInt(255),
@@ -56,11 +56,14 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: MouseRegion(
           onEnter: (event) => positionCursor = event.localPosition.dx,
-          onHover: (event) => setState(() {
-            final alpha = (((width - event.localPosition.dx) / width) * 255).toInt();
-            backgroundColor = backgroundColor.withAlpha(alpha);
-            positionCursor = event.localPosition.dx;
-          }),
+          onHover: (event) {
+            //сhanging the background alpha depending on the horizontal position of the cursor
+            setState(() {
+              final alpha = (((width - event.localPosition.dx) / width) * 255).toInt();
+              backgroundColor = backgroundColor.withAlpha(alpha);
+              positionCursor = event.localPosition.dx;
+            });
+          },
           onExit: (event) => positionCursor = event.localPosition.dx,
           child: Container(
             color: backgroundColor,
