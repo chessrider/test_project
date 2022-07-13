@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,7 +7,7 @@ void main() {
 
 ///Main Widget
 class MyApp extends StatelessWidget {
-  ///constructor
+  ///Constructor
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
 
 ///Home Widget
 class MyHomePage extends StatefulWidget {
-  ///constructor
+  ///Constructor
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
@@ -29,12 +28,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Color color;
-  late double position;
+  late Color backgroundColor;
+  late double positionCursor; //Horizontal cursor position
 
   @override
   void initState() {
-    color = Colors.white;
+    backgroundColor = Colors.white;
     super.initState();
   }
 
@@ -44,24 +43,27 @@ class _MyHomePageState extends State<MyHomePage> {
     // ignore: newline-before-return
     return Scaffold(
       body: GestureDetector(
-        onTap: () => setState(
-          () => color = Color.fromRGBO(
-            Random().nextInt(255),
-            Random().nextInt(255),
-            Random().nextInt(255),
-            (width - position) / width,
-          ),
-        ),
+        onTap: () {
+          //change background to random color on click
+          setState(
+            () => backgroundColor = Color.fromRGBO(
+              Random().nextInt(255),
+              Random().nextInt(255),
+              Random().nextInt(255),
+              (width - positionCursor) / width,
+            ),
+          );
+        },
         child: MouseRegion(
-          onEnter: (event) => position = event.localPosition.dx,
+          onEnter: (event) => positionCursor = event.localPosition.dx,
           onHover: (event) => setState(() {
             final alpha = (((width - event.localPosition.dx) / width) * 255).toInt();
-            color = color.withAlpha(alpha);
-            position = event.localPosition.dx;
+            backgroundColor = backgroundColor.withAlpha(alpha);
+            positionCursor = event.localPosition.dx;
           }),
-          onExit: (event) => position = event.localPosition.dx,
+          onExit: (event) => positionCursor = event.localPosition.dx,
           child: Container(
-            color: color,
+            color: backgroundColor,
             alignment: Alignment.center,
             child: const Text(
               "Hello, there",
