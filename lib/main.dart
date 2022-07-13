@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     backgroundColor = Colors.white;
+    positionCursor = 0;
     super.initState();
   }
 
@@ -54,6 +55,14 @@ class _MyHomePageState extends State<MyHomePage> {
               (width - positionCursor) / width,
             ),
           );
+        },
+        onHorizontalDragUpdate: (details) {
+          //сhanging the background alpha depending on the horizontal position of the cursor
+          setState(() {
+            final alpha = (((width - details.localPosition.dx) / width) * 255).toInt();
+            backgroundColor = backgroundColor.withAlpha(alpha);
+            positionCursor = details.localPosition.dx;
+          });
         },
         child: MouseRegion(
           onEnter: (event) => positionCursor = event.localPosition.dx,
